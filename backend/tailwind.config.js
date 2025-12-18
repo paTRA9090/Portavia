@@ -1,9 +1,47 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./views/**/*.ejs"],
+  content: ["./views/**/*.ejs", "./views/*.ejs"],
   theme: {
     extend: {},
   },
   plugins: [],
+  safelist: [
+    'bg-gray-50',
+    'text-gray-800',
+    'font-sans',
+    'flex',
+    'justify-between',
+    'items-center',
+    'px-6',
+    'py-4',
+    'bg-white',
+    'shadow-md',
+    'text-2xl',
+    'font-bold',
+    'text-blue-600',
+    'hover:text-blue-600',
+    'text-red-600',
+    'hover:underline',
+    'container',
+    'mx-auto',
+    'px-4',
+    'py-8',
+    'space-y-16',
+    'rounded-xl',
+    'overflow-hidden',
+    'w-full',
+    'h-64',
+    'h-48',
+    'object-contain',
+    'text-xl',
+    'font-semibold',
+    'w-7',
+    'h-7',
+    'rounded-full',
+    'bg-green-700',
+    'p-2',
+    'rounded-md',
+    'text-white'
+  ]
 }
 

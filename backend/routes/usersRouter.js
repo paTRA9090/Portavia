@@ -9,9 +9,8 @@ const productModel = require("../models/product-model")
 async function isLoggedin(req, res, next) {
     if (!req.cookies.token) {
         req.flash("error", "You are not logged in, please login first")
-        res.redirect("/")
+        return res.redirect("/")
     }
-
 
     try {
         let decoded = jwt.verify(req.cookies.token, process.env.JWT_KEY)
@@ -20,7 +19,7 @@ async function isLoggedin(req, res, next) {
         next();
     } catch (err) {
         req.flash("error", "You are not logged in, please login first")
-        res.redirect("/")
+        return res.redirect("/")
     }
 }
 
@@ -72,8 +71,8 @@ router.post("/login", async (req, res) => {
             return res.redirect("/users/shop")
         }
         else {
-            // res.send("You don't have an account, please register")
-            res.redirect("/")
+            req.flash("error", "Invalid password")
+            return res.redirect("/")
         }
     })
     // let token = jwt.sign({ email:user.email, id: user._id }, process.env.JWT_KEY)
