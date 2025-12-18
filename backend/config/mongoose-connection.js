@@ -1,15 +1,12 @@
-const mongoose = require('mongoose');
-const config = require("config");
+const mongoose = require("mongoose")
 
-const debug = require("debug")("development:mongoose");
+const connectDB=async()=>{
+    try {
+        await mongoose.connect(process.env.MONGODB_URI)
+        console.log("MONGO DB CONNECTED")
+    } catch (error) {
+        console.log(error)
+    }
+}
 
-mongoose
-    .connect(`${config.get("MONGODB_URI")}/scatch`)
-    .then(() => {
-        debug("connected");
-    })
-    .catch((err) => {
-        debug(err);
-    });
-
-module.exports = mongoose.connection;
+module.exports = connectDB

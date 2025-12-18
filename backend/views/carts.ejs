@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cart - Portavia</title>
-    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-gray-50 text-gray-800 font-sans">
@@ -13,6 +12,7 @@
     <!-- Navbar -->
     <nav class="flex flex-col sm:flex-row justify-between items-center px-6 py-4 bg-white shadow-md">
         <h3 class="text-2xl font-bold text-blue-600 mb-2 sm:mb-0">Portavia</h3>
+
         <% var loggedin=typeof loggedin !=="undefined" ? loggedin : true %>
             <% if (loggedin) { %>
                 <div class="flex flex-wrap gap-4 text-lg">
@@ -26,30 +26,36 @@
 
     <!-- Cart Products -->
     <div class="container mx-auto px-4 py-8 space-y-16">
+
         <% users.cart.forEach(product=> { %>
             <div class="flex flex-col md:flex-row items-start gap-8">
 
                 <!-- Product Card -->
                 <div class="md:w-1/3 w-full bg-white rounded-xl shadow-md overflow-hidden">
-                    <div class="w-full h-64 flex items-center justify-center bg-[<%= product.bgcolor %>]">
+                    <div class="w-full h-64 flex items-center justify-center" style="background:<%= product.bgcolor %>">
                         <img src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
                             class="h-48 object-contain" alt="">
                     </div>
-                    <div class="flex justify-between items-center p-4 bg-[<%= product.panelcolor %>]">
+
+                    <div class="flex justify-between items-center p-4" style="background:<%= product.panelcolor %>">
                         <h3 class="text-xl font-semibold">
                             <%= product.name %>
                         </h3>
+
                         <div class="flex items-center gap-2">
                             <a href="/decrease/<%= product._id %>"
                                 class="w-7 h-7 bg-white rounded-full flex items-center justify-center text-xl font-bold">-</a>
+
                             <span class="bg-white px-2 py-1 rounded-md text-black">
                                 <%= product.quantity %>
                             </span>
+
                             <a href="/increase/<%= product._id %>"
                                 class="w-7 h-7 bg-white rounded-full flex items-center justify-center text-xl font-bold">+</a>
                         </div>
                     </div>
-                    <div class="flex justify-between px-4 py-3 bg-[<%= product.textcolor %>] text-white">
+
+                    <div class="flex justify-between px-4 py-3 text-white" style="background:<%= product.textcolor %>">
                         <h4>Net Total</h4>
                         <h4>₹ <%= (product.price * product.quantity - product.dicount + 20) %>
                         </h4>
@@ -59,25 +65,31 @@
                 <!-- Price Breakdown -->
                 <div class="md:w-2/3 w-full">
                     <h3 class="text-xl font-semibold mb-4">Price Breakdown</h3>
+
                     <div class="space-y-2 text-gray-700">
                         <div class="flex justify-between">
                             <span>Total MRP</span>
                             <span>₹ <%= product.price * product.quantity %></span>
                         </div>
+
                         <div class="flex justify-between">
                             <span>Discount on MRP</span>
                             <span>₹ <%= product.dicount %></span>
                         </div>
+
                         <div class="flex justify-between">
                             <span>Platform Fee</span>
                             <span>₹ 20</span>
                         </div>
+
                         <div class="flex justify-between">
                             <span>Shipping Fee</span>
                             <span>FREE</span>
                         </div>
                     </div>
+
                     <hr class="my-6 border-gray-300">
+
                     <div class="flex justify-between text-xl font-semibold text-green-600">
                         <span>Total Amount</span>
                         <span>₹ <%= (product.price * product.quantity - product.dicount + 20) %></span>
@@ -87,7 +99,7 @@
             </div>
             <% }) %>
 
-                <!-- Grand Total Section -->
+                <!-- Grand Total + Stripe Button -->
                 <div
                     class="flex flex-col md:flex-row justify-between items-center mt-10 bg-white p-6 rounded-lg shadow-sm">
                     <div class="flex justify-between w-full md:w-auto gap-4 items-center mb-4 md:mb-0">
@@ -95,10 +107,14 @@
                         <h2 class="text-xl">₹ <%= total %>
                         </h2>
                     </div>
-                    <a href="/checkout"
-                        class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-md text-lg">Proceed to
-                        Pay</a>
+
+                    <!-- 🔥 STRIPE CHECKOUT BUTTON (NO JS) -->
+                    <form action="/create-checkout-session" method="POST">
+                        <button type="submit" class="bg-green-700 p-2 rounded-md text-white">Proceed to Pay</button>
+                    </form>
+
                 </div>
+
     </div>
 
 </body>

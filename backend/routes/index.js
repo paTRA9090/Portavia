@@ -27,13 +27,13 @@ async function isLoggedin(req, res, next) {
 router.get("/", (req, res) => {
     let error = req.flash("error");
     const form = req.query.form || 'login';
-    res.render("indexs", { error, loggedin: false ,form});
+    res.render("index", { error, loggedin: false, form });
 })
 
-router.get("/users/auth",(req,res)=>{
+router.get("/users/auth", (req, res) => {
     let error = req.flash("error");
     const form = req.query.form || 'login';
-    res.render("auth", { error, loggedin: false ,form});
+    res.render("auth", { error, loggedin: false, form });
 })
 
 
@@ -67,14 +67,18 @@ router.get("/cart", isLoggedin, async (req, res) => {
     function sumNumbers(numbers) {
         let sum = 0;
         numbers.forEach(product => {
-            sum += ((product.price) * product.quantity + 20 - product.dicount);
+            sum += ((product.price * product.quantity) - product.dicount + 20);
         });
         return sum;
     }
     const total = sumNumbers(users.cart);
     // let quantity=1;
 
-    res.render("carts", { users, total })
+    res.render("carts", {
+        users,
+        total,
+        publishableKey: process.env.STRIPE_PUBLISHABLE_KEY
+    });
 })
 
 router.get("/increase/:id", async (req, res) => {

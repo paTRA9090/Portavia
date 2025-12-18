@@ -2,11 +2,11 @@
   "name": "scratch",
   "version": "1.0.0",
   "main": "script.js",
+  "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
+    "start": "node script.js",
     "dev": "nodemon server.js"
-     
   },
   "keywords": [],
   "author": "",
@@ -23,9 +23,9 @@
     "express-session": "^1.18.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.16.1",
-    "multer": "^2.0.1"
+    "multer": "^2.0.1",
+    "stripe": "^20.1.0"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/patraRahul5678/bb.git"
@@ -34,5 +34,8 @@
     "url": "https://github.com/patraRahul5678/bb/issues"
   },
   "homepage": "https://github.com/patraRahul5678/bb#readme",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "tailwindcss": "^4.1.18"
+  }
 }
