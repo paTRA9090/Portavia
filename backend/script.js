@@ -23,7 +23,7 @@ app.use(expressSession({
     secret: 'dev-secret-key'
 }))
 app.use(flash())
-app.use(express.static(path.join(process.cwd(), "public")));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/owners", ownersRouter)
 app.use("/users", usersRouter)
