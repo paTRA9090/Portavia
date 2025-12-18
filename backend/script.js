@@ -12,8 +12,8 @@ const indexRouter = require("./routes/index")
 const paymentRouter = require("./routes/payment")
 require("dotenv").config()
 
+app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
-app.set("views", path.join(process.cwd(), "views"));
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
