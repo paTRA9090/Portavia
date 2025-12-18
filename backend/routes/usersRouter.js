@@ -23,9 +23,6 @@ async function isLoggedin(req, res, next) {
     }
 }
 
-
-
-
 router.get("/shop", isLoggedin, async (req, res) => {
     let products = await productModel.find({})
     let success = req.flash("success")
@@ -37,8 +34,17 @@ router.post("/register", async (req, res) => {
     try {
         const { email, fullname, password } = req.body;
 
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            req.flash("error", "Please enter a valid email address");
+            return res.redirect("/users/auth?form=register");
+        }
+
         const user = await userModel.findOne({ email });
-        if (user) return res.send("You already have an account, please login");
+        if (user) {
+            req.flash("error", "You already have an account, please login");
+            return res.redirect("/users/auth?form=login");
+        }
 
         const salt = await bcrypt.genSalt(10);
         const hash = await bcrypt.hash(password, salt);
@@ -49,20 +55,30 @@ router.post("/register", async (req, res) => {
             password: hash,
         });
 
-        // const token = generateToken(createdUser);
         let token = jwt.sign({ email: createdUser.email, id: createdUser._id }, process.env.JWT_KEY)
         res.cookie("token", token);
         return res.redirect("/users/shop");
     } catch (err) {
-        return res.send(err.message);
+        req.flash("error", err.message);
+        return res.redirect("/users/auth?form=register");
     }
 });
 
 
 router.post("/login", async (req, res) => {
     let { email, password } = req.body
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        req.flash("error", "Please enter a valid email address");
+        return res.redirect("/users/auth?form=login");
+    }
+
     let user = await userModel.findOne({ email })
-    if (!user) return res.send("You don't have an account, please register")
+    if (!user) {
+        req.flash("error", "You don't have an account, please register");
+        return res.redirect("/users/auth?form=register");
+    }
 
     bcrypt.compare(password, user.password, (err, result) => {
         if (result) {
@@ -72,12 +88,9 @@ router.post("/login", async (req, res) => {
         }
         else {
             req.flash("error", "Invalid password")
-            return res.redirect("/")
+            return res.redirect("/users/auth?form=login")
         }
     })
-    // let token = jwt.sign({ email:user.email, id: user._id }, process.env.JWT_KEY)
-    // res.cookie("token", token);
-    // return res.redirect("/users/shop");
 
 });
 
