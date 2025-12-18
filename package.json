@@ -1,0 +1,20 @@
+{
+  "name": "portavia",
+  "version": "1.0.0",
+  "description": "Portavia is a full-stack eCommerce web application focused on selling premium bags. Built using Node.js, Express.js, MongoDB, EJS, and Tailwind CSS, the app offers a complete shopping experience with user authentication, cart functionality, and an admin dashboard.",
+  "homepage": "https://github.com/paTRA9090/Portavia#readme",
+  "bugs": {
+    "url": "https://github.com/paTRA9090/Portavia/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paTRA9090/Portavia.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "script.js",
+  "scripts": {
+    "start":"nodemon backend/script.js"
+  }
+}

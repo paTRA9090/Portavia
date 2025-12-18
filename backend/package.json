@@ -4,7 +4,9 @@
   "main": "script.js",
   "type": "commonjs",
   "scripts": {
-    "start": "nodemon backend/script.js"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node backend/script.js",
+    "dev": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
